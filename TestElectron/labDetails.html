@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Details</title>
+</head>
+<body>
+    <h1>Welcome!</h1>
+    <p id="labName"></p>
+    <p id="labId"></p>
+    <p id="pcName"></p>
+
+    <form id="requirementForm">
+        <input type="text" id="description" placeholder="Requirement Description" required />
+        <input type="date" id="date" required />
+        <button type="submit">Add Requirement</button>
+    </form>
+
+    <table border="1" id="requirementsTable">
+        <thead>
+            <tr>
+                <th>Sr No</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="labDetails.js"></script>
+</body>
+</html>
