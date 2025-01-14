@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Logs</title>
+  <link href="/css/tailwind.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <%- include('sidebar'); %>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <h2 class="text-2xl font-bold mb-6">View Logs</h2>
+      <ul class="space-y-4">
+        <% if (logs && logs.length > 0) { %>
+          <% logs.forEach(log => { %>
+            <li class="border p-4 rounded-lg bg-white shadow-md">
+              <p class="text-sm text-gray-500"><strong>Date:</strong> <%= log.date %></p>
+              <p class="text-gray-700"><strong>Action:</strong> <%= log.action %></p>
+            </li>
+          <% }) %>
+        <% } else { %>
+          <li class="text-gray-500">No logs available.</li>
+        <% } %>
+      </ul>
+    </main>
+  </div>
+</body>
+</html>

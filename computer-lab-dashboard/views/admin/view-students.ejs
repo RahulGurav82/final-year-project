@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Students</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="/css/tailwind.css" rel="stylesheet">
+  
+  <script>
+    function togglePassword(id) {
+      const passwordField = document.getElementById(id);
+      const passwordIcon = document.getElementById(`icon-${id}`);
+      
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        passwordIcon.classList.remove('fa-eye');
+        passwordIcon.classList.add('fa-eye-slash');
+      } else {
+        passwordField.type = 'password';
+        passwordIcon.classList.remove('fa-eye-slash');
+        passwordIcon.classList.add('fa-eye');
+      }
+    }
+  </script>
+  
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-1/4 bg-gray-800 text-white p-6">
+      <h2 class="text-2xl font-bold mb-6">Admin Dashboard</h2>
+      <ul class="space-y-4">
+        <li><a href="/admin/add-student" class="hover:text-blue-400">Add Student</a></li>
+        <li><a href="/admin/create-lab" class="hover:text-blue-400">Create Lab</a></li>
+        <li><a href="/admin/show-labs" class="hover:text-blue-400">Show Lab</a></li>
+        <li><a href="/admin/view-logs" class="hover:text-blue-400">View Logs</a></li>
+        <li><a href="/admin/view-students" class="hover:text-blue-400">View Students</a></li>      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <h1 class="text-3xl font-bold mb-4">View Students</h1>
+
+      <!-- Table to display students -->
+      <table class="min-w-full table-auto bg-white shadow-md rounded-lg">
+        <thead>
+          <tr class="bg-gray-800 text-white">
+            <th class="px-6 py-3 text-left">Student Name</th>
+            <th class="px-6 py-3 text-left">Roll Number</th>
+            <th class="px-6 py-3 text-left">Department</th>
+            <th class="px-6 py-3 text-left">Class</th>
+            <th class="px-6 py-3 text-left">WhatsApp</th>
+            <th class="px-6 py-3 text-left">Password</th>
+            <th class="px-6 py-3 text-left">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% students.forEach(student => { %>
+            <tr class="border-b">
+              <td class="px-6 py-4"><%= student.name %></td>
+              <td class="px-6 py-4"><%= student.roll %></td>
+              <td class="px-6 py-4"><%= student.department %></td>
+              <td class="px-6 py-4"><%= student.class %></td>
+              <td class="px-6 py-4"><%= student.whatsapp %></td>
+              <td class="px-6 py-4">
+                <input type="password" id="password-<%= student._id %>" value="<%= student.password %>" class="border px-2 py-1 rounded" readonly>
+                <i id="icon-password-<%= student._id %>" class="fa-solid fa-eye cursor-pointer ml-2" onclick="togglePassword('password-<%= student._id %>')"></i>
+              </td>
+              
+              <td class="px-6 py-4">
+                <form action="/admin/send-message/<%= student._id %>" method="POST">
+                  <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg">Send</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </main>
+  </div>
+</body>
+</html>

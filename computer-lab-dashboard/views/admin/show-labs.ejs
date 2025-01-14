@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Show Labs</title>
+  <link href="/css/tailwind.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-1/4 bg-gray-800 text-white p-6">
+      <h2 class="text-2xl font-bold mb-6">Admin Dashboard</h2>
+      <ul class="space-y-4">
+        <li><a href="/admin/add-student" class="hover:text-blue-400">Add Student</a></li>
+        <li><a href="/admin/create-lab" class="hover:text-blue-400">Create Lab</a></li>
+        <li><a href="/admin/show-labs" class="hover:text-blue-400">Show Lab</a></li>
+        <li><a href="/admin/view-logs" class="hover:text-blue-400">View Logs</a></li>
+        <li><a href="/admin/view-students" class="hover:text-blue-400">View Students</a></li>
+       </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <h1 class="text-3xl font-bold mb-6">Labs</h1>
+      <div class="grid grid-cols-3 gap-6">
+        <% labs.forEach(lab => { %>
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold mb-2"><%= lab.labName %></h3>
+            <p class="text-gray-500">Lab ID: <%= lab.labId %></p>
+            <a href="/admin/lab/<%= lab.labId %>" class="mt-4 inline-block text-blue-500 hover:text-blue-700">View Lab</a>
+          </div>
+        <% }); %>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

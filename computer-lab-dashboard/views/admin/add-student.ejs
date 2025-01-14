@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Student</title>
+  <link href="/css/tailwind.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <%- include('sidebar'); %>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <h2 class="text-2xl font-bold mb-4">Add Student</h2>
+      <form action="/admin/add-student" method="POST" class="space-y-4">
+        <div>
+          <label for="name" class="block text-sm font-medium">Student Name</label>
+          <input type="text" id="name" name="name" required class="w-full mt-1 px-3 py-2 border rounded-lg">
+        </div>
+        <div>
+          <label for="roll" class="block text-sm font-medium">Roll Number</label>
+          <input type="text" id="roll" name="roll" required class="w-full mt-1 px-3 py-2 border rounded-lg">
+        </div>
+        <div>
+          <label for="department" class="block text-sm font-medium">Department</label>
+          <input type="text" id="department" name="department" required class="w-full mt-1 px-3 py-2 border rounded-lg">
+        </div>
+        <div>
+          <label for="class" class="block text-sm font-medium">Class</label>
+          <input type="text" id="class" name="class" required class="w-full mt-1 px-3 py-2 border rounded-lg">
+        </div>
+        <div>
+          <label for="whatsapp" class="block text-sm font-medium">WhatsApp Number</label>
+          <input type="text" id="whatsapp" name="whatsapp" required class="w-full mt-1 px-3 py-2 border rounded-lg">
+        </div>
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg">Add Student</button>
+      </form>
+    </main>
+  </div>
+</body>
+</html>
