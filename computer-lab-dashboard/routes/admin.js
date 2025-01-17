@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const XLSX = require('xlsx');
 const Admin = require('../models/Admin');
 const Student = require('../models/Student');
 const Lab = require('../models/Lab'); // Path to the Lab model
 const PC = require('../models/PC');
+const Requirement = require('../models/Requirement');
 const bcrypt = require('bcrypt'); // For password hashing
 
 const logs = [
@@ -173,5 +175,83 @@ router.post('/create-lab', (req, res) => {
   logs.push({ date: new Date().toISOString().split('T')[0], action: `Created Lab: ${labName}` });
   res.redirect('/admin/view-logs');
 });
+
+// Route to get requirements for a specific lab ID
+router.get('/manage-requirements/:labId', async (req, res) => {
+  const { labId } = req.params;
+  try {
+      const requirements = await Requirement.find({ labId });
+      const lab = await Lab.find({ labId });
+      res.render('admin/manage-requirements', { labId, requirements, lab });
+  } catch (error) {
+      console.error('Error fetching requirements:', error);
+      res.status(500).send('Server Error');
+  }
+});
+
+
+// Update Requirement Status
+router.post('/update-requirement-status', async (req, res) => {
+  const { requirementId, status, } = req.body;
+
+  try {
+    // Find the requirement and update its status
+    await Requirement.findByIdAndUpdate(requirementId, { status });
+    res.redirect('back'); // Redirect to the previous page
+  } catch (error) {
+    console.error('Error updating requirement status:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+router.get('/export-requirements/:labName', async (req, res) => {
+  try {
+    const { startDate, endDate, status } = req.query;
+    const { labName } = req.params;
+
+    // Filter logic
+    const filter = {};
+    if (startDate && endDate) {
+      filter.date = { $gte: startDate, $lte: endDate };
+    }
+    if (status) {
+      filter.status = status;
+    }
+
+    const requirements = await Requirement.find(filter);
+
+    // Create workbook
+    const workbook = XLSX.utils.book_new();
+
+    // Add a header row for the lab name
+    const heading = [[`${labName} Requirements`], []]; // Create a row with the lab name as a title
+    const data = requirements.map((req) => ({
+      PC_Name: req.pcName,
+      Description: req.description,
+      Date: req.date,
+      Time: req.time,
+      Status: req.status,
+    }));
+
+    // Convert JSON data to worksheet and append the heading
+    const worksheet = XLSX.utils.json_to_sheet([]);
+    XLSX.utils.sheet_add_aoa(worksheet, heading); // Add heading
+    XLSX.utils.sheet_add_json(worksheet, data, { origin: 'A3' }); // Add data starting from the 3rd row
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Requirements');
+
+    // Write to buffer and send as response
+    const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+    const fileName = `${labName}_requirements.xlsx`; // Dynamically set the file name
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.send(buffer);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error exporting requirements');
+  }
+});
+
 
 module.exports = router;

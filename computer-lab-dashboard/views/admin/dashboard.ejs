@@ -4,27 +4,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
-  <link href="/css/tailwind.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.245.0/lucide.min.css">
 </head>
-<body class="bg-gray-100">
-  <div class="flex h-screen">
-    <!-- Sidebar -->
-    <aside class="w-1/4 bg-gray-800 text-white p-6">
-      <h2 class="text-2xl font-bold mb-6">Admin Dashboard</h2>
-      <ul class="space-y-4">
-        <li><a href="/admin/add-student" class="hover:text-blue-400">Add Student</a></li>
-        <li><a href="/admin/create-lab" class="hover:text-blue-400">Create Lab</a></li>
-        <li><a href="/admin/show-labs" class="hover:text-blue-400">Show Lab</a></li>
-        <li><a href="/admin/view-logs" class="hover:text-blue-400">View Logs</a></li>
-        <li><a href="/admin/view-students" class="hover:text-blue-400">View Students</a></li>
-        </ul>
-    </aside>
+<body class="flex h-screen bg-gray-50">
+  <!-- Sidebar -->
+  <aside class="w-1/4 bg-gradient-to-b from-gray-800 to-gray-900 text-white">
+    <div class="p-6">
+      <h2 class="text-2xl font-bold mb-8 flex items-center space-x-2">
+        <i class="lucide lucide-monitor w-6 h-6"></i>
+        <span>Admin Dashboard</span>
+      </h2>
+      <ul class="space-y-2">
+        <% const menuItems = [
+          { href: '/admin/add-student', icon: 'user-plus', text: 'Add Student' },
+          { href: '/admin/create-lab', icon: 'layout', text: 'Create Lab' },
+          { href: '/admin/show-labs', icon: 'monitor', text: 'Show Lab' },
+          { href: '/admin/view-logs', icon: 'clipboard-list', text: 'View Logs' },
+          { href: '/admin/view-students', icon: 'users', text: 'View Students' },
+        ]; %>
+        <% menuItems.forEach(item => { %>
+        <li>
+          <a 
+            href="<%= item.href %>"
+            class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors hover:bg-gray-700 group"
+          >
+            <i class="lucide lucide-<%= item.icon %> w-5 h-5 text-gray-400 group-hover:text-blue-400"></i>
+            <span class="flex-1 group-hover:text-blue-400"><%= item.text %></span>
+            <i class="lucide lucide-chevron-right w-4 h-4 text-gray-400 group-hover:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+          </a>
+        </li>
+        <% }); %>
+        <li class="pt-4">
+          <a 
+            href="/admin/logout"
+            class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors hover:bg-gray-700 text-gray-400 hover:text-red-400 group"
+          >
+            <i class="lucide lucide-log-out w-5 h-5"></i>
+            <span class="flex-1">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 p-6">
-      <h1 class="text-3xl font-bold mb-4">Welcome to the Admin Dashboard</h1>
-      <p>Select an option from the sidebar to manage your lab.</p>
-    </main>
-  </div>
+  <!-- Main Content -->
+  <main class="flex-1 overflow-auto">
+    <div class="max-w-4xl mx-auto p-8">
+      <div class="bg-white rounded-2xl shadow-sm p-8">
+        <div class="flex items-center space-x-4 mb-8">
+          <div class="p-3 bg-blue-50 text-blue-600 rounded-xl">
+            <i class="lucide lucide-monitor w-8 h-8"></i>
+          </div>
+          <h1 class="text-3xl font-bold text-gray-800">Welcome to the Admin Dashboard</h1>
+        </div>
+        <div class="bg-gray-50 rounded-xl p-6">
+          <p class="text-gray-600 text-lg">Select an option from the sidebar to manage your lab.</p>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="grid grid-cols-3 gap-6 mt-8">
+        <% const quickActions = [
+          { icon: 'user-plus', text: 'Add New Student', color: 'bg-green-50 text-green-600' },
+          { icon: 'monitor', text: 'Monitor Labs', color: 'bg-blue-50 text-blue-600' },
+          { icon: 'clipboard-list', text: 'View Recent Logs', color: 'bg-purple-50 text-purple-600' },
+        ]; %>
+        <% quickActions.forEach(action => { %>
+        <div 
+          class="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow cursor-pointer"
+        >
+          <div class="w-12 h-12 <%= action.color %> rounded-lg flex items-center justify-center mb-4">
+            <i class="lucide lucide-<%= action.icon %> w-6 h-6"></i>
+          </div>
+          <h3 class="font-semibold text-gray-800"><%= action.text %></h3>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+  </main>
 </body>
 </html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Requirements</title>
+  <link href="/css/tailwind.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-1/4 bg-gray-800 text-white p-6">
+      <h2 class="text-2xl font-bold mb-6">Admin Dashboard</h2>
+      <ul class="space-y-4">
+        <li><a href="/admin/add-student" class="hover:text-blue-400">Add Student</a></li>
+        <li><a href="/admin/create-lab" class="hover:text-blue-400">Create Lab</a></li>
+        <li><a href="/admin/show-labs" class="hover:text-blue-400">Show Lab</a></li>
+        <li><a href="/admin/view-logs" class="hover:text-blue-400">View Logs</a></li>
+        <li><a href="/admin/view-students" class="hover:text-blue-400">View Students</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <h1 class="text-3xl font-bold mb-6">Manage Requirements for Lab ID: <%= labId %></h1>
+      <h1 class="text-3xl font-bold mb-6">Manage Requirements for Lab Name: <%= lab[0].labName %></h1>
+
+      <form action="/admin/export-requirements/<%= lab[0].labName %>" method="GET" class="mb-6 flex items-center space-x-4">
+          <div>
+              <label for="startDate" class="block text-sm font-medium">Start Date:</label>
+              <input type="date" name="startDate" id="startDate" class="p-2 border rounded">
+          </div>
+          <div>
+              <label for="endDate" class="block text-sm font-medium">End Date:</label>
+              <input type="date" name="endDate" id="endDate" class="p-2 border rounded">
+          </div>
+          <div>
+              <label for="status" class="block text-sm font-medium">Status:</label>
+              <select name="status" id="status" class="p-2 border rounded">
+                  <option value="">All</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Resolved">Resolved</option>
+                  <option value="Rejected">Rejected</option>
+              </select>
+          </div>
+          <button
+          type="submit"
+          style="background-color: #10b981; color: white; padding: 8px 16px; border-radius: 8px;"
+        >
+          Export to Excel
+        </button>
+        
+      </form>
+
+      <% if (requirements.length > 0) { %>
+        <table class="w-full bg-white rounded-lg shadow-md border border-gray-300">
+          <thead>
+            <tr class="bg-gray-200">
+              <th class="p-4">#</th>
+              <th class="p-4">PC Name</th>
+              <th class="p-4">Description</th>
+              <th class="p-4">Date</th>
+              <th class="p-4">Time</th>
+              <th class="p-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% requirements.forEach((req, index) => { %>
+              <tr class="border-t">
+                <td class="p-4"><%= index + 1 %></td>
+                <td class="p-4"><%= req.pcName %></td>
+                <td class="p-4"><%= req.description %></td>
+                <td class="p-4"><%= req.date %></td>
+                <td class="p-4"><%= req.time %></td>
+                <td class="p-4">
+                  <form action="/admin/update-requirement-status" method="POST" class="flex items-center">
+                    <input type="hidden" name="requirementId" value="<%= req._id %>" />
+                    <select name="status" class="p-2 border rounded mr-2">
+                      <option value="Pending" <%= req.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                      <option value="Resolved" <%= req.status === 'Resolved' ? 'selected' : '' %>>Resolved</option>
+                      <option value="Rejected" <%= req.status === 'Rejected' ? 'selected' : '' %>>Rejected</option>
+                    </select>
+                    <button 
+                      type="submit" 
+                      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
+                    >
+                      Update
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <p>No requirements found for this lab.</p>
+        </div>
+      <% } %>
+    </main>
+  </div>
+</body>
+</html>
