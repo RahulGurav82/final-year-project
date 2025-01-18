@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduLab Admin Dashboard</title>
+  <title>LabMonitor Admin Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://unpkg.com/lucide@latest/dist/lucide.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 </head>
 <body class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200">
 
@@ -17,7 +16,7 @@
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center space-x-3">
           <svg class="w-8 h-8 text-white" data-lucide="graduation-cap"></svg>
-          <span class="font-bold text-xl text-white">EduLab Admin</span>
+          <span class="font-bold text-xl text-white">LabMonitor Admin</span>
         </div>
 
         <!-- Search Bar -->
@@ -40,7 +39,7 @@
             <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
           </button>
           <a 
-            href="/admin/logout" 
+            href="/logout" 
             class="flex items-center space-x-2 text-white hover:text-gray-200 transition-colors"
           >
             <svg class="w-5 h-5" data-lucide="log-out"></svg>
@@ -58,7 +57,7 @@
         Welcome back, Administrator
       </h1>
       <p class="text-gray-700">
-        Here's what's happening in your laboratory management system
+        Here's what's happening in your lab management system
       </p>
     </div>
 
@@ -85,7 +84,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <% const dashboardOptions = [
         { href: '/admin/add-student', icon: 'user-plus', text: 'Add Student', description: 'Register new students in the system', color: 'from-indigo-300 to-indigo-500' },
-        { href: '#', id: 'create-lab-btn', icon: 'flask-round', text: 'Create Lab', description: 'Set up new laboratory sessions', color: 'from-pink-300 to-pink-500' },
+        { href: '#', id: 'create-lab-btn', icon: 'flask-round', text: 'Create Lab', description: 'Set up new lab sessions', color: 'from-pink-300 to-pink-500' },
         { href: '/admin/show-labs', icon: 'school', text: 'Show Labs', description: 'View and manage active labs', color: 'from-teal-300 to-teal-500' },
         { href: '/admin/view-logs', icon: 'file-text', text: 'View Logs', description: 'Access system activity logs', color: 'from-orange-300 to-orange-500' },
         { href: '/admin/view-students', icon: 'users', text: 'View Students', description: 'Manage student records', color: 'from-purple-300 to-purple-500' },
@@ -120,6 +119,15 @@
       <% }); %>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-6 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p>&copy; <%= new Date().getFullYear() %> LabMonitor. All rights reserved.</p>
+      <p class="mt-2">Developed by <a href="https://github.com/RahulGurav82" class="font-semibold text-gray-200 hover:text-gray-100">Rahul Gurav</a></p>
+      <p class="mt-2">For enquiries, contact <a href="mailto:enquiries@edulab.com" class="font-semibold text-gray-200 hover:text-gray-100">enquiries@LabMonitor.com</a></p>
+    </div>
+  </footer>
 
   <!-- Include Lucide Icons Script -->
   <script src="https://unpkg.com/lucide@latest"></script>

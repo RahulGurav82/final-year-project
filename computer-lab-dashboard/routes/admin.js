@@ -81,7 +81,7 @@ router.post('/add-student', async (req, res) => {
     await newStudent.save();
 
     console.log(`Student added. Generated password: ${plainPassword}`); // Optional: Log the generated password
-    res.redirect('/admin/dashboard'); // Redirect to the dashboard after adding
+    res.redirect('/admin/view-students?success=true'); // Redirect with success flag
   } catch (err) {
     console.error(err);
     res.status(500).send('Error adding student');
@@ -172,20 +172,6 @@ router.get('/lab/:labId', async (req, res) => {
   }
 });
 
-// Handle Add Student
-router.post('/add-student', (req, res) => {
-  const { name } = req.body;
-  logs.push({ date: new Date().toISOString().split('T')[0], action: `Added Student: ${name}` });
-  res.redirect('/admin/view-logs');
-});
-
-// Handle Create Lab
-router.post('/create-lab', (req, res) => {
-  const { labName } = req.body;
-  logs.push({ date: new Date().toISOString().split('T')[0], action: `Created Lab: ${labName}` });
-  res.redirect('/admin/view-logs');
-});
-
 // Route to get requirements for a specific lab ID
 router.get('/manage-requirements/:labId', async (req, res) => {
   const { labId } = req.params;
@@ -198,7 +184,6 @@ router.get('/manage-requirements/:labId', async (req, res) => {
       res.status(500).send('Server Error');
   }
 });
-
 
 // Update Requirement Status
 router.post('/update-requirement-status', async (req, res) => {
@@ -262,6 +247,5 @@ router.get('/export-requirements/:labName', async (req, res) => {
     res.status(500).send('Error exporting requirements');
   }
 });
-
 
 module.exports = router;

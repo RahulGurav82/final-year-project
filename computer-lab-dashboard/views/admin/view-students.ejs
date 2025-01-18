@@ -75,5 +75,20 @@
       </table>
     </main>
   </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    // Check if the success query parameter is present
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log(urlParams);
+    if (urlParams.has('success')) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Student Added!',
+        text: 'The student has been successfully added.',
+      });
+    }
+  </script>
 </body>
 </html>

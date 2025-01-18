@@ -1,5 +1,5 @@
-    // Attach click event to trigger button
-    document.getElementById('create-lab-btn').addEventListener('click', () => {
+// Attach click event to trigger button
+document.getElementById('create-lab-btn').addEventListener('click', () => {
         Swal.fire({
           title: 'Create New Lab',
           html: `
@@ -58,4 +58,4 @@
             }
           });
           
-      });
+});
