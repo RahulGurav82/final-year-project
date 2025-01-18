@@ -41,29 +41,44 @@ window.onload = () => {
     // Handle requirement form submission
     document.getElementById('requirementForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-
+    
         const description = document.getElementById('description').value;
-        const date = document.getElementById('date').value;
-
-        const newRequirement = { description, date, status: 'Pending' };
-
+    
+        // Automatically get the current date and time
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        const formattedTime = currentDate.toTimeString().split(' ')[0]; // Format as HH:MM:SS
+    
+        const newRequirement = { 
+            description, 
+            date: formattedDate, 
+            time: formattedTime, 
+            status: 'Pending' 
+        };
+    
         try {
             const response = await fetch('http://localhost:4000/requirements', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ labId, pcName, description, date }),
+                body: JSON.stringify({ 
+                    labId, 
+                    pcName, 
+                    description, 
+                    date: formattedDate,
+                    time: formattedTime 
+                }),
             });
-
+    
             if (response.ok) {
                 const result = await response.json();
-
+    
                 requirements.push({
                     ...newRequirement,
                     id: result.id,
                     labId,  // Include labId
                     pcName, // Include pcName
                 });
-
+    
                 updateRequirementsTable(requirements);
                 document.getElementById('requirementForm').reset();
             } else {
@@ -74,6 +89,7 @@ window.onload = () => {
             alert('Error connecting to the server.');
         }
     });
+    
 
     async function fetchAndRenderRequirements() {
         try {
@@ -105,6 +121,7 @@ window.onload = () => {
                 <td>${index + 1}</td>
                 <td>${req.description}</td>
                 <td>${req.date}</td>
+                <td>${req.time}</td>
                 <td>${req.status}</td>
                 <td>
                     <button onclick="deleteRequirement('${req.labId}', '${req.pcName}', '${req.description}', ${index})">Delete</button>
@@ -112,30 +129,6 @@ window.onload = () => {
             `;
             tableBody.appendChild(row);
         });
-    }
-
-    async function deleteRequirement(labId, pcName, description, index) {
-        console.log('deleteRequirement triggered', { labId, pcName, description, index }); // Debugging line
-        try {
-            const response = await fetch('http://localhost:4000/requirements', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ labId, pcName, description }),
-            });
-        
-            if (response.ok) {
-                console.log('Delete response:', await response.json()); // Debugging line
-                requirements.splice(index, 1); // Remove from local array
-                updateRequirementsTable(requirements); // Update UI
-            } else {
-                console.error('Failed to delete requirement:', await response.json());
-                alert('Failed to delete requirement.');
-            }
-        } catch (error) {
-            console.error('Error deleting requirement:', error);
-            alert('Error connecting to the server.');
-        }
-    }
-    
+    } 
     
 };

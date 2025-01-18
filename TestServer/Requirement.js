@@ -7,6 +7,7 @@ const requirementSchema = new mongoose.Schema({
     pcName: String,
     description: String,
     date: String,
+    time: String,
     status: { type: String, default: 'Pending' },
 });
 

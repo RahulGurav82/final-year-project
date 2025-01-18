@@ -1,22 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab Authentication</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab Authentication</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
-<body>
-    <h1>Lab Authentication</h1>
-    <form id="loginForm">
-        <label for="labId">Lab ID:</label>
-        <input type="text" id="labId" name="labId" required>
-        <br>
-        <label for="PCName">PC Name:</label>
-        <input type="text" id="PCName" name="PCName" required>
-        <br>
-        <button type="submit">Authenticate</button>
+<body class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+  <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
+    <!-- Header -->
+    <div class="text-center">
+      <div class="flex justify-center mb-4">
+        <div class="bg-blue-600 p-3 rounded-full">
+          <svg class="h-8 w-8 text-white" data-lucide="server"></svg>
+        </div>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-900">Lab Authentication</h2>
+      <p class="mt-2 text-sm text-gray-600">
+        Please enter your credentials to access the lab system
+      </p>
+    </div>
+
+    <!-- Form -->
+    <form id="loginForm" class="mt-8 space-y-6">
+      <div class="space-y-4">
+        <!-- Lab ID -->
+        <div>
+          <label for="labId" class="block text-sm font-medium text-gray-700">Lab ID</label>
+          <div class="mt-1 relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" data-lucide="server"></svg>
+            </div>
+            <input
+              id="labId"
+              name="labId"
+              type="text"
+              required
+              class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="Enter Lab ID"
+            />
+          </div>
+        </div>
+
+        <!-- PC Name -->
+        <div>
+          <label for="pcName" class="block text-sm font-medium text-gray-700">PC Name</label>
+          <div class="mt-1 relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" data-lucide="monitor"></svg>
+            </div>
+            <input
+              id="pcName"
+              name="pcName"
+              type="text"
+              required
+              class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="Enter PC Name"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div>
+        <button
+          type="submit"
+          class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+            <svg class="h-5 w-5 text-blue-500 group-hover:text-blue-400" data-lucide="arrow-right"></svg>
+          </span>
+          Authenticate
+        </button>
+      </div>
     </form>
-    <p id="message"></p>
-    <script src="renderer.js"></script>
+
+    <!-- Message -->
+    <div id="message" class="mt-4 text-sm text-center text-gray-600 hidden">
+      Authentication request sent...
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-4 text-xs text-center text-gray-500">
+      System v1.0.0 &bull; Laboratory Management System
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const labId = document.getElementById('labId').value;
+      const pcName = document.getElementById('pcName').value;
+
+      try {
+          const response = await fetch('http://localhost:4000/authenticate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ labId, pcName }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+              // Save lab details to localStorage
+              localStorage.setItem('labName', data.lab.labName);
+              localStorage.setItem('labId', data.lab.labId);
+              localStorage.setItem('pcName', data.pc.pcName);
+
+              // Redirect to the labDetails.html page
+              window.location.href = 'labDetails.html';
+          } else {
+              document.getElementById('message').innerText = data.message;
+              document.getElementById('message').classList.remove('hidden');
+          }
+      } catch (error) {
+          document.getElementById('message').innerText = 'Error connecting to server.';
+          document.getElementById('message').classList.remove('hidden');
+      }
+    });
+
+    lucide.createIcons();
+  </script>
 </body>
 </html>

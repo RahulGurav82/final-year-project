@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const Lab = require('./Lab.js'); // Import the Lab model
 const PC = require('./PC.js'); // Import the PC model
+const Student = require('./Student.js'); // Import the Student model
 const Requirement = require('./Requirement.js'); // Import the PC model
 
 const app = express();
@@ -52,10 +53,10 @@ app.post('/authenticate', async (req, res) => {
 
 // Add a requirement
 app.post('/requirements', async (req, res) => {
-    const { labId, pcName, description, date } = req.body;
+    const { labId, pcName, description, date, time } = req.body;
 
     try {
-        const newRequirement = new Requirement({ labId, pcName, description, date });
+        const newRequirement = new Requirement({ labId, pcName, description, date, time });
         await newRequirement.save();
         res.status(201).json({ success: true });
     } catch (error) {
@@ -99,7 +100,22 @@ app.delete('/requirements', async (req, res) => {
 });
 
 
-
+// Authentication route
+app.post('/authenticateUser', async (req, res) => {
+    const { roll, password } = req.body;
+  
+    try {
+      const student = await Student.findOne({ roll, password });
+  
+      if (student) {
+        res.status(200).json({ success: true, message: 'Authentication successful', student });
+      } else {
+        res.status(401).json({ success: false, message: 'Invalid roll number or password' });
+      }
+    } catch (error) {
+      res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+  });
 
 // Start the server
 app.listen(4000, () => console.log('Server is running on http://localhost:4000'));
