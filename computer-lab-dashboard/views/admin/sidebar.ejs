@@ -1,14 +1,30 @@
-<aside class="w-1/4 bg-gray-800 text-white p-6">
-    <h2 class="text-2xl font-bold mb-6"> 
-      Admin Dashboard
-    </h2>
-    <ul class="space-y-4">
-      <li><a href="/admin/add-student" class="hover:text-blue-400">Add Student</a></li>
-      <li><a href="/admin/create-lab" class="hover:text-blue-400">Create Lab</a></li>
-      <li><a href="/admin/show-labs" class="hover:text-blue-400">Show Lab</a></li>
-      <li><a href="/admin/view-logs" class="hover:text-blue-400">View Logs</a></li>
-      <li><a href="/admin/view-students" class="hover:text-blue-400">View Students</a></li>
-      <li><a href="/admin/logout" class="hover:text-blue-400">logout</a></li>
-    </ul>
-  </aside>
+<aside class="sidebar p-4">
+  <h2 class="h4 mb-4">
+    <a href="/admin/dashboard" class="text-decoration-none text-dark">
+      <i class="fas fa-tachometer-alt"></i> Admin Dashboard
+    </a>
+  </h2>
   
+  <ul class="nav flex-column">
+    <% const menuItems = [
+      { href: '/admin/add-student', icon: 'fa-user-plus', text: 'Add Student' },
+      { href: '/admin/create-lab', icon: 'fa-flask', text: 'Create Lab' },
+      { href: '/admin/show-labs', icon: 'fa-chalkboard-teacher', text: 'Show Labs' },
+      { href: '/admin/view-logs', icon: 'fa-file-alt', text: 'View Logs' },
+      { href: '/admin/view-students', icon: 'fa-users', text: 'View Students' },
+    ]; %>
+    <% menuItems.forEach(item => { %>
+    <li class="nav-item mb-3">
+      <a href="<%= item.href %>" class="nav-link d-flex align-items-center">
+        <i class="fas <%= item.icon %> me-2"></i>
+        <span><%= item.text %></span>
+      </a>
+    </li>
+    <% }); %>
+    <li class="mt-4">
+      <a href="/admin/logout" class="nav-link text-danger">
+        <i class="fas fa-sign-out-alt me-2"></i> Logout
+      </a>
+    </li>
+  </ul>
+</aside>

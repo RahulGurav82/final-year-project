@@ -4,40 +4,80 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add Student</title>
-  <link href="/css/tailwind.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/lucide@latest/dist/lucide.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="bg-gray-100">
-  <div class="flex h-screen">
-    <!-- Sidebar -->
-    <%- include('sidebar'); %>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 flex items-center space-x-3">
+        <i class="lucide lucide-user-plus text-indigo-600"></i>
+        <span>Add Student</span>
+      </h1>
+      <a 
+        href="/admin/dashboard" 
+        class="flex items-center bg-gray-200 text-gray-700 hover:bg-gray-300 py-2 px-4 rounded-lg transition duration-300"
+      >
+        <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+      </a>
+    </div>
 
-    <!-- Main Content -->
-    <main class="flex-1 p-6">
-      <h2 class="text-2xl font-bold mb-4">Add Student</h2>
-      <form action="/admin/add-student" method="POST" class="space-y-4">
-        <div>
-          <label for="name" class="block text-sm font-medium">Student Name</label>
-          <input type="text" id="name" name="name" required class="w-full mt-1 px-3 py-2 border rounded-lg">
+    <div class="flex flex-wrap justify-center gap-6">
+      <!-- Add Student Form -->
+      <div class="w-full max-w-lg bg-white shadow-lg rounded-lg p-8">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center space-x-2">
+          <i class="lucide lucide-user-plus text-blue-500"></i>
+          <span>Student Details</span>
+        </h2>
+        <form action="/admin/add-student" method="POST" class="space-y-6">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Student Name</label>
+            <input type="text" id="name" name="name" required class="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+          </div>
+          <div>
+            <label for="roll" class="block text-sm font-medium text-gray-700">Roll Number</label>
+            <input type="text" id="roll" name="roll" required class="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+          </div>
+          <div>
+            <label for="department" class="block text-sm font-medium text-gray-700">Department</label>
+            <input type="text" id="department" name="department" required class="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+          </div>
+          <div>
+            <label for="class" class="block text-sm font-medium text-gray-700">Class</label>
+            <input type="text" id="class" name="class" required class="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+          </div>
+          <div>
+            <label for="whatsapp" class="block text-sm font-medium text-gray-700">WhatsApp Number</label>
+            <input type="text" id="whatsapp" name="whatsapp" required class="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+          </div>
+          <button type="submit" class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition duration-300">
+            <i class="fas fa-user-plus mr-2"></i> Add Student
+          </button>
+        </form>
+      </div>
+
+      <!-- Option Cards -->
+      <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Admin Options</h2>
+        <div class="space-y-4">
+          <a href="/admin/create-lab" class="flex items-center bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition duration-300">
+            <i class="fas fa-flask mr-3"></i> Create Lab
+          </a>
+          <a href="/admin/show-labs" class="flex items-center bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition duration-300">
+            <i class="fas fa-chalkboard-teacher mr-3"></i> Show Labs
+          </a>
+          <a href="/admin/view-logs" class="flex items-center bg-yellow-500 text-white py-3 px-4 rounded-lg hover:bg-yellow-600 transition duration-300">
+            <i class="fas fa-file-alt mr-3"></i> View Logs
+          </a>
+          <a href="/admin/view-students" class="flex items-center bg-purple-500 text-white py-3 px-4 rounded-lg hover:bg-purple-600 transition duration-300">
+            <i class="fas fa-users mr-3"></i> View Students
+          </a>
         </div>
-        <div>
-          <label for="roll" class="block text-sm font-medium">Roll Number</label>
-          <input type="text" id="roll" name="roll" required class="w-full mt-1 px-3 py-2 border rounded-lg">
-        </div>
-        <div>
-          <label for="department" class="block text-sm font-medium">Department</label>
-          <input type="text" id="department" name="department" required class="w-full mt-1 px-3 py-2 border rounded-lg">
-        </div>
-        <div>
-          <label for="class" class="block text-sm font-medium">Class</label>
-          <input type="text" id="class" name="class" required class="w-full mt-1 px-3 py-2 border rounded-lg">
-        </div>
-        <div>
-          <label for="whatsapp" class="block text-sm font-medium">WhatsApp Number</label>
-          <input type="text" id="whatsapp" name="whatsapp" required class="w-full mt-1 px-3 py-2 border rounded-lg">
-        </div>
-        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg">Add Student</button>
-      </form>
-    </main>
+      </div>
+    </div>
   </div>
 </body>
 </html>

@@ -118,6 +118,7 @@ router.get('/create-lab', (req, res) => res.render('admin/create-lab'));
 // Route to create lab
 router.post('/create-lab', async (req, res) => {
   const { labName, capacity } = req.body;
+  console.log(labName, capacity);
 
   // Generate a 5-digit lab ID
   let labId;
@@ -134,7 +135,16 @@ router.post('/create-lab', async (req, res) => {
 
     // Save the new lab to the database
     await newLab.save();
-    res.redirect('/admin/dashboard'); // Redirect to the dashboard after creating the lab
+
+        // Send a success response
+        res.status(201).json({
+          message: 'Lab created successfully!',
+          lab: {
+            labName,
+            capacity,
+            labId,
+          },
+        });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error creating lab');

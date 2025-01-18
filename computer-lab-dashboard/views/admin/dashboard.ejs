@@ -3,85 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
+  <title>EduLab Admin Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.245.0/lucide.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/lucide@latest/dist/lucide.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
-<body class="flex h-screen bg-gray-50">
-  <!-- Sidebar -->
-  <aside class="w-1/4 bg-gradient-to-b from-gray-800 to-gray-900 text-white">
-    <div class="p-6">
-      <h2 class="text-2xl font-bold mb-8 flex items-center space-x-2">
-        <i class="lucide lucide-monitor w-6 h-6"></i>
-        <span>Admin Dashboard</span>
-      </h2>
-      <ul class="space-y-2">
-        <% const menuItems = [
-          { href: '/admin/add-student', icon: 'user-plus', text: 'Add Student' },
-          { href: '/admin/create-lab', icon: 'layout', text: 'Create Lab' },
-          { href: '/admin/show-labs', icon: 'monitor', text: 'Show Lab' },
-          { href: '/admin/view-logs', icon: 'clipboard-list', text: 'View Logs' },
-          { href: '/admin/view-students', icon: 'users', text: 'View Students' },
-        ]; %>
-        <% menuItems.forEach(item => { %>
-        <li>
+<body class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200">
+
+  <!-- Navbar -->
+  <nav class="bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center space-x-3">
+          <svg class="w-8 h-8 text-white" data-lucide="graduation-cap"></svg>
+          <span class="font-bold text-xl text-white">EduLab Admin</span>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="hidden md:flex items-center flex-1 max-w-md mx-8">
+          <div class="relative w-full">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" data-lucide="search"></svg>
+            </div>
+            <input
+              type="text"
+              class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-purple-300 focus:border-purple-500 text-sm"
+              placeholder="Search resources..."
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-6">
+          <button class="relative text-white hover:text-gray-200">
+            <svg class="w-6 h-6" data-lucide="bell"></svg>
+            <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+          </button>
           <a 
-            href="<%= item.href %>"
-            class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors hover:bg-gray-700 group"
+            href="/admin/logout" 
+            class="flex items-center space-x-2 text-white hover:text-gray-200 transition-colors"
           >
-            <i class="lucide lucide-<%= item.icon %> w-5 h-5 text-gray-400 group-hover:text-blue-400"></i>
-            <span class="flex-1 group-hover:text-blue-400"><%= item.text %></span>
-            <i class="lucide lucide-chevron-right w-4 h-4 text-gray-400 group-hover:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+            <svg class="w-5 h-5" data-lucide="log-out"></svg>
+            <span class="font-medium">Logout</span>
           </a>
-        </li>
-        <% }); %>
-        <li class="pt-4">
-          <a 
-            href="/admin/logout"
-            class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors hover:bg-gray-700 text-gray-400 hover:text-red-400 group"
-          >
-            <i class="lucide lucide-log-out w-5 h-5"></i>
-            <span class="flex-1">Logout</span>
-          </a>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
-  </aside>
+  </nav>
 
   <!-- Main Content -->
-  <main class="flex-1 overflow-auto">
-    <div class="max-w-4xl mx-auto p-8">
-      <div class="bg-white rounded-2xl shadow-sm p-8">
-        <div class="flex items-center space-x-4 mb-8">
-          <div class="p-3 bg-blue-50 text-blue-600 rounded-xl">
-            <i class="lucide lucide-monitor w-8 h-8"></i>
-          </div>
-          <h1 class="text-3xl font-bold text-gray-800">Welcome to the Admin Dashboard</h1>
-        </div>
-        <div class="bg-gray-50 rounded-xl p-6">
-          <p class="text-gray-600 text-lg">Select an option from the sidebar to manage your lab.</p>
-        </div>
-      </div>
-
-      <!-- Quick Actions -->
-      <div class="grid grid-cols-3 gap-6 mt-8">
-        <% const quickActions = [
-          { icon: 'user-plus', text: 'Add New Student', color: 'bg-green-50 text-green-600' },
-          { icon: 'monitor', text: 'Monitor Labs', color: 'bg-blue-50 text-blue-600' },
-          { icon: 'clipboard-list', text: 'View Recent Logs', color: 'bg-purple-50 text-purple-600' },
-        ]; %>
-        <% quickActions.forEach(action => { %>
-        <div 
-          class="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow cursor-pointer"
-        >
-          <div class="w-12 h-12 <%= action.color %> rounded-lg flex items-center justify-center mb-4">
-            <i class="lucide lucide-<%= action.icon %> w-6 h-6"></i>
-          </div>
-          <h3 class="font-semibold text-gray-800"><%= action.text %></h3>
-        </div>
-        <% }); %>
-      </div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">
+        Welcome back, Administrator
+      </h1>
+      <p class="text-gray-700">
+        Here's what's happening in your laboratory management system
+      </p>
     </div>
-  </main>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <% const stats = [
+        { label: 'Active Labs', value: '12', color: 'bg-gradient-to-r from-green-400 to-green-600 text-white' },
+        { label: 'Total Students', value: '156', color: 'bg-gradient-to-r from-blue-400 to-blue-600 text-white' },
+        { label: 'Pending Requests', value: '3', color: 'bg-gradient-to-r from-yellow-400 to-amber-600 text-white' },
+      ]; %>
+      <% stats.forEach((stat) => { %>
+        <div class="rounded-xl shadow-lg p-6 <%= stat.color %>">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-medium"><%= stat.label %></h3>
+            <span class="px-3 py-1 rounded-lg text-sm font-semibold bg-white bg-opacity-20">
+              <%= stat.value %>
+            </span>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+
+    <!-- Main Actions Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% const dashboardOptions = [
+        { href: '/admin/add-student', icon: 'user-plus', text: 'Add Student', description: 'Register new students in the system', color: 'from-indigo-300 to-indigo-500' },
+        { href: '#', id: 'create-lab-btn', icon: 'flask-round', text: 'Create Lab', description: 'Set up new laboratory sessions', color: 'from-pink-300 to-pink-500' },
+        { href: '/admin/show-labs', icon: 'school', text: 'Show Labs', description: 'View and manage active labs', color: 'from-teal-300 to-teal-500' },
+        { href: '/admin/view-logs', icon: 'file-text', text: 'View Logs', description: 'Access system activity logs', color: 'from-orange-300 to-orange-500' },
+        { href: '/admin/view-students', icon: 'users', text: 'View Students', description: 'Manage student records', color: 'from-purple-300 to-purple-500' },
+      ]; %>
+      <% dashboardOptions.forEach((option) => { %>
+        <a
+          href="<%= option.href %>"
+          id="<%= option.id %>"
+          class="group bg-gradient-to-br <%= option.color %> rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 overflow-hidden"
+        >
+          <div class="p-6">
+            <div class="flex items-center space-x-4">
+              <div class="p-3 bg-white rounded-xl bg-opacity-20 group-hover:bg-opacity-30">
+                <svg class="w-6 h-6 text-white" data-lucide="<%= option.icon %>"></svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-white mb-1">
+                  <%= option.text %>
+                </h3>
+                <p class="text-sm text-white text-opacity-90">
+                  <%= option.description %>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="px-6 py-3 bg-white bg-opacity-10 group-hover:bg-opacity-20 transition-colors">
+            <span class="text-sm font-medium text-white">
+              Access <%= option.text %> →
+            </span>
+          </div>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+
+  <!-- Include Lucide Icons Script -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="/js/script.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>
